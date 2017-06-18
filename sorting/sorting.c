@@ -202,8 +202,10 @@ int partition(int *array, int low, int high) {
 int heap_sort(int *array, int size) {
     int i;
     //  初始化，i从最后一个父节点开始调整
-    for (i = size / 2 - 1; i >= 0; i--)
+    for (i = size / 2 - 1; i >= 0; i--) {
         max_heapify(array, i, size - 1);
+    }
+
     // 先将第一个元素和已排好的元素前一位做交换在重新调整
     for (i = size - 1; i > 0; i--) {
         move_count++;
@@ -216,15 +218,19 @@ int heap_sort(int *array, int size) {
 int max_heapify(int *array, int start, int end) {
     //  建立父节点指针和子节点指针
     int parent = start;
-    int child = parent * 2 + 1;
+    int child = parent * 2 + 1;  // 左子节点
     while (child <= end) {  // 若子节点指针在范围内才做比较
         compare_count++;
-        if (child + 1 <= end && array[child] < array[child + 1])  // 先比较两个子节点大小， 选择最大的
+        // 先比较两个子节点大小， 选择最大的
+        if (child + 1 <= end && array[child] < array[child + 1]) {
             child++;
+        }
         compare_count++;
-        if (array[parent] > array[child])
+        if (array[parent] > array[child]) {
+            // 父节点大于最大的子节点，无需调整
             return OK;
-        else {
+        } else {
+            // 否则交换父子节点内容再继续子节点和孙节点比较
             move_count++;
             swap(array, parent, child);
             parent = child;
